@@ -1,9 +1,8 @@
 'use client'
 import React, { useState } from 'react';
-import axios from 'axios';
+import uploadFile from '@/util/upload';
 
 const Home = () => {
-
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event: any) => {
@@ -16,19 +15,10 @@ const Home = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-
     try {
-      const response = await axios.post('/api/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log(response.data);
+      await uploadFile(selectedFile);
       alert('File uploaded successfully');
     } catch (error) {
-      console.error('Error uploading file:', error);
       alert('Error uploading file');
     }
   };
